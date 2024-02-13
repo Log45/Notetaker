@@ -1,0 +1,11 @@
+# ignore audio files
+*.mp3
+*.flac
+*.wav
+
+# ignore pytorch models
+*.pt
+
+# folders for the project
+__pycache__/
+.conda/

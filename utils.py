@@ -4,6 +4,7 @@ from datasets.data_files import DataFilesDict
 import soundfile as sf
 from os import path
 from pydub import AudioSegment
+#from pydub import *
 
 
 def map_to_array(batch):
@@ -17,16 +18,18 @@ def mp3_to_flac(audio_file: str):
     print(dst)
 
     sound = AudioSegment.from_mp3(audio_file)
+    sound.set_frame_rate(16000)
     sound.export(dst, format="flac")
     return dst
 
 def misc_to_flac(audio_file: str):
     lst = audio_file.split(".")
     dst = ""
-    for i in range(lst-1):
+    for i in range(len(lst)-1):
         dst = dst+lst[i]
     dst = dst+".flac"
     sound = AudioSegment.from_file(audio_file)
+    sound.set_frame_rate(16000)
     sound.export(dst, format="flac")
     return dst
 

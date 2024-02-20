@@ -19,14 +19,19 @@ print(ds)
 print(ds[0]['audio'])
 print(ds[0]['audio']['array'])
 
+print("DS Shape: ", torch.tensor(ds[0]['audio']['array']).shape)
+
 output = ""
 
 for i in range(ds.num_rows):
   inputs = processor(ds[i]["audio"]["array"], sampling_rate=ds[i]["audio"]["sampling_rate"], return_tensors="pt").to(device)
-
+  print("Shape: ", inputs["input_features"].shape)
   # print(ds[i]["audio"])
+  print(inputs["input_features"][0][0])
 
   generated_ids = model.generate(inputs["input_features"], attention_mask=inputs["attention_mask"])
+
+  print("Generated IDs Shape: ", generated_ids.shape)
   transcription = processor.batch_decode(generated_ids, skip_special_tokens=True)
   output = output + transcription[0] + "\n"
 

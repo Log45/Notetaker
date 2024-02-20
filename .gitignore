@@ -2,6 +2,7 @@
 *.mp3
 *.flac
 *.wav
+*.m4a
 
 # ignore pytorch models
 *.pt
@@ -9,3 +10,4 @@
 # folders for the project
 __pycache__/
 .conda/
+.venv/

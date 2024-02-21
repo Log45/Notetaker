@@ -7,8 +7,9 @@ Currently I am messing around with an open-source Speech-to-Text model from face
 
 ## Issues:
 I need to figure out how to:
-1. Split a single audio file into workable batches
-2. Ensure those batches have a dimension of 1
+1. ~Split a single audio file into workable batches~
+2. ~Ensure those batches have a dimension of 1~
+3. Figure out model training.
 
 ## Todo:
 1. Fix issues (see above)

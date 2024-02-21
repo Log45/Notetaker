@@ -30,11 +30,11 @@ def get_data():
       if data[0] == ".":
         pass
       for reader in os.listdir(data):
-        print(reader)
+        #print(reader)
         if reader == ".DS_Store":
           pass
         for chapter in os.listdir(f"{data}/{reader}"):
-          print(chapter)
+          #print(chapter)
           if chapter[0] == ".":
             pass
           for file in os.listdir(f"{data}/{reader}/{chapter}"):
@@ -49,7 +49,7 @@ def get_data():
     return data_dict                      
   else:
     print("LibriSpeech not found...")
-    exit()
+    return None
 
 if __name__ == "__main__":
   d = get_data()

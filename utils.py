@@ -4,8 +4,15 @@ from datasets.data_files import DataFilesDict
 import soundfile as sf
 from os import path
 from pydub import AudioSegment
+import evaluate
+import numpy as np
 #from pydub import *
 
+def compute_metrics(eval_pred):
+    metric = evaluate.load("accuracy")
+    logits, labels = eval_pred
+    predictions = np.argmax(logits, axis=-1)
+    return metric.compute(predictions=predictions, references=labels)
 
 def map_to_array(batch):
     speech_array, _ = sf.read(batch["file"])

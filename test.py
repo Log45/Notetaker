@@ -32,7 +32,7 @@ dataset = dataset.map(map_to_array, remove_columns=["file"])
 
 print(torch.cuda.is_available())
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
 print(device)
 
 

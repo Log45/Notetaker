@@ -11,3 +11,10 @@
 __pycache__/
 .conda/
 .venv/
+
+# Mac Finder File
+.DS_Store
+*.DS_Store
+
+# Training and Testing Data
+LibriSpeech/

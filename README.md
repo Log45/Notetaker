@@ -27,12 +27,14 @@ python app.py --api-key "YOUR_API_KEY" --audio-file "path/to/audio/file"
 I need to figure out how to:
 1. ~Split a single audio file into workable batches~
 2. ~Ensure those batches have a dimension of 1~
-3. Figure out model training.
+3. Figure out model training. (None of this is needed with whisper)
+4. Turns out whisper is open source: https://github.com/openai/whisper
 
 ## Todo:
-1. Fix issues (see above)
-2. Create a pipeline for taking the transcription and creating (hopefully formatted) notes
-3. Turn it into a webapp (Flask)
+1. Implement open source whisper and then use huggingface models for the notetaking portion.
+2. Fix issues (see above)
+3. Create a pipeline for taking the transcription and creating (hopefully formatted) notes
+4. Turn it into a webapp (Flask)
 
 ### Datasets to Train On
 - TED-LIUM (https://www.openslr.org/51)

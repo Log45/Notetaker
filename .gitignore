@@ -4,6 +4,13 @@
 *.wav
 *.m4a
 
+# ignore video files
+*.mp4
+*.avi
+*.mov
+*.MOV
+
+
 # ignore pytorch models
 *.pt
 
@@ -21,3 +28,4 @@ LibriSpeech/
 
 # Secrets
 .env
+*.sqlite

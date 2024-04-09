@@ -33,8 +33,15 @@ I need to figure out how to:
 ## Todo:
 1. Implement open source whisper and then use huggingface models for the notetaking portion.
 2. Fix issues (see above)
-3. Create a pipeline for taking the transcription and creating (hopefully formatted) notes
+3. ~Create a pipeline for taking the transcription and creating (hopefully formatted) notes~
 4. Turn it into a webapp (Flask)
+    - Following this tutorial to add auth: https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login#step-7-setting-up-the-authorization-function
+    - Need to create something that encrypts api keys in the database and decrypts them upon login
+    - Need an upload page
+5. Make use of environment variables for encryption secret key, database stuff, etc.
+6. Need to format output files so they can be utilized by RAG later
+7. Add a chat interface (implement chat functionality with GPT-3.5 and later open source transformers)
+8. Implement RAG that accesses current user's transcriptions
 
 ### Datasets to Train On
 - TED-LIUM (https://www.openslr.org/51)

@@ -3,7 +3,7 @@
 This project is meant to eventually be a webapp, but the general idea is to take an .mp3 (or other audio format) file of a lecture or a meeting, generate a text transcript of that audio file, and create notes for that meeting or lecture.
 
 ## Status:
-Currently I am messing around with an open-source Speech-to-Text model from facebook. Ignore the spaghetti code currently there. On the other side of things, the OpenAI version is already functional.
+~Currently I am messing around with an open-source Speech-to-Text model from facebook. Ignore the spaghetti code currently there.~ I am planning to implement a local instance of whisper in addition to a HuggingFace Transformer model for the open source iteration. On the other side of things, the OpenAI version is already functional.
 
 
 ## OpenAI Iteration:

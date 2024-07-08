@@ -1,0 +1,14 @@
+setuptools-rust
+torch==2.3.1
+accelerate==0.31.0
+transformers==4.41.2
+ninja
+flash_attn==2.5.8
+flask
+argparse
+pydub
+tqdm
+openai
+openai-whisper
+moviepy
+wheel

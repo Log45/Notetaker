@@ -2,7 +2,7 @@ import whisper
 import torch 
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 
-model = whisper.load_model("large")
+model = whisper.load_model("base.en")
 result = model.transcribe("C:/Users/Logan/Documents/CODE/Notetaker/OpenSource-Notetaker/M3DemoAnonymization_Logan.mp3")
 transcription = result["text"]
 
@@ -19,10 +19,8 @@ model = AutoModelForCausalLM.from_pretrained(
 tokenizer = AutoTokenizer.from_pretrained("microsoft/Phi-3-mini-128k-instruct") 
 
 messages = [ 
-    {"role": "system", "content": "You are a helpful AI assistant."}, 
-    {"role": "user", "content": "Can you provide ways to eat combinations of bananas and dragonfruits?"}, 
-    {"role": "assistant", "content": "Sure! Here are some ways to eat bananas and dragonfruits together: 1. Banana and dragonfruit smoothie: Blend bananas and dragonfruits together with some milk and honey. 2. Banana and dragonfruit salad: Mix sliced bananas and dragonfruits together with some lemon juice and honey."}, 
-    {"role": "user", "content": "What about solving an 2x + 3 = 7 equation?"}, 
+    {"role": "system", "content": "You are a college student taking notes for a lecture in Markdown formatting. Be detailed in your notes to avoid later confusion."},
+    {"role": "user", "content": transcription},
 ] 
 
 pipe = pipeline( 

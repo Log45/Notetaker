@@ -31,7 +31,7 @@ I need to figure out how to:
 4. Turns out whisper is open source: https://github.com/openai/whisper
 
 ## Todo:
-1. Implement open source whisper and then use huggingface models for the notetaking portion.
+1. ~Implement open source whisper~ and then use huggingface models for the notetaking portion.
 2. Fix issues (see above)
 3. ~Create a pipeline for taking the transcription and creating (hopefully formatted) notes~
 4. Turn it into a webapp (Flask)
@@ -42,6 +42,7 @@ I need to figure out how to:
 6. Need to format output files so they can be utilized by RAG later
 7. Add a chat interface (implement chat functionality with GPT-3.5 and later open source transformers)
 8. Implement RAG that accesses current user's transcriptions
+9. Add GraphRAG from Microsoft
 
 ### Datasets to Train On
 - TED-LIUM (https://www.openslr.org/51)

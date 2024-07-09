@@ -1,14 +1,15 @@
 from moviepy.editor import AudioFileClip
 from pathlib import Path
 import os
-import whisper
+from whisper import Whisper
+from transformers import Pipeline
 
 
 class Lecture():
   """ 
   Class to represent a lecture audio file and its transcription.
   """
-  def __init__(self, audio_file: str, split_list: list = [], client: str = "medium.en"):
+  def __init__(self, whisper_client: Whisper, llm_pipeline: Pipeline, audio_file: str, split_list: list = [], ):
     self.audio_file = audio_file
     
     if('.mp4' in audio_file):
@@ -19,10 +20,10 @@ class Lecture():
     audio_path = Path(audio_file)
     self.audio_size = (os.stat(audio_path).st_size / (1024 * 1024))
     self.split_list = split_list
-    self.client = client
+    self.whisper = whisper_client
     self.transcription = ""
     self.notes = ""
-    self.model = whisper.load_model(client)
+    self.llm = llm_pipeline
  
   def __mp4_to_mp3(self, mp4: str, mp3: str) -> str:
     file = AudioFileClip(mp4)
@@ -30,16 +31,68 @@ class Lecture():
     file.close()
     return mp3
 
+  def __split_prompt(self) -> list:
+    splt = self.transcription.split()
+    split = []
+    lst = []
+    for i in range((len(splt) // 400)+1):
+      if (i*400)+400 >= len(splt):
+        lst.append(splt[(i*400):-1])
+      else:
+        lst.append(splt[(i*400):(i*400)+400])
+    for block in lst:
+      s = ""
+      for word in block:
+        s = s + word + " "
+      if len(block) <= 50:
+        split[-1] += s
+      else:
+        split.append(s)  
+    return split  
+
   def transcribe_audio(self) -> str:
-    result = self.model.transcribe(self.audio_file)
+    result = self.whisper.transcribe(self.audio_file)
     self.transcription = result["text"]
     return self.transcription
 
-  def take_notes(self) -> str:
+  def take_notes(self, max_tokens: int=1000) -> str:
     """Implement this function to take notes from the lecture transcription using an open source model like Phi-3, ollama, or something else."""
     # TODO: Implement this function
-    # TODO: Figure out how to install flash attention (or switch to Ubuntu and try there)
-    return ""
+    generation_args = { 
+    "max_new_tokens": max_tokens, 
+    "return_full_text": False, 
+    "do_sample": False, 
+    } 
+    if len(self.transcription.split()) > 400:
+      split = self.__split_prompt()
+      response = ""
+      for i, prompt in enumerate(split):
+        """"""
+        s = ""
+        if i == 0:
+          messages = [ 
+            {"role": "system", "content": "You are a college student taking notes for a lecture in Markdown formatting. Be detailed in your notes to avoid later confusion."},
+            {"role": "user", "content": prompt},
+          ]  
+          s = self.llm(messages, **generation_args)[0]['generated_text']
+          response = response + s + "\n\n"
+        else:
+          messages = [ 
+            {"role": "system", "content": f"You are a college student taking notes for a lecture in Markdown formatting. Be detailed in your notes to avoid later confusion. \
+              You have already started taking notes, right now you have just finished writing: {s} please continue taking notes in this same file with the next part of the lecture, you do NOT need to re-write a title for these notes."},
+            {"role": "user", "content": prompt},
+          ]  
+          s = self.llm(messages, **generation_args)[0]['generated_text']
+          response = response + s + "\n\n"
+    else:
+      messages = [ 
+        {"role": "system", "content": "You are a college student taking notes for a lecture in Markdown formatting. Be detailed in your notes to avoid later confusion."},
+        {"role": "user", "content": self.transcription},
+      ]  
+      self.notes = self.llm(messages, **generation_args)[0]['generated_text']
+      return self.notes
+    self.notes = response
+    return self.notes
   
   def get_notes(self) -> str:
     return self.notes

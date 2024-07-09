@@ -55,7 +55,8 @@ class Lecture():
       {"role": "system", "content": "You are a college student taking notes for a lecture in Markdown formatting. Be detailed in your notes to avoid later confusion."},
       {"role": "user", "content": self.transcription},
     ])
-    return response.choices[0].message.content
+    self.notes = response.choices[0].message.content
+    return self.notes
   
   def get_notes(self) -> str:
     return self.notes

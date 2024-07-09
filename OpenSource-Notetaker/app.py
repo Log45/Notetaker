@@ -2,15 +2,31 @@ from lecture import Lecture
 import os
 from pathlib import Path
 import argparse
+import whisper
+from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 
 def main():
     # Handle commandline arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument("--whisper", type=str, help="Size of the whisper model to use. Options are tiny[.en], base[.en], small[.en], medium[.en], and large.")
+    parser.add_argument("--whisper", type=str, default="base.en", help="Size of the whisper model to use. Options are tiny[.en], base[.en], small[.en], medium[.en], and large.")
     parser.add_argument("--audio-file", type=str, help="Path to audio file to take notes on.")
     opt = parser.parse_args()
 
-    lecture = Lecture(opt.audio_file, [], opt.whisper) # instance of Lecture class
+    client = whisper.load_model(opt.whisper)
+    model = AutoModelForCausalLM.from_pretrained( 
+    "microsoft/Phi-3-mini-128k-instruct",  
+    device_map="cuda",  
+    torch_dtype="auto",  
+    trust_remote_code=True,  
+    ) 
+    tokenizer = AutoTokenizer.from_pretrained("microsoft/Phi-3-mini-128k-instruct") 
+    pipe = pipeline( 
+        "text-generation", 
+        model=model, 
+        tokenizer=tokenizer, 
+    ) 
+
+    lecture = Lecture(whisper_client=client, llm_pipeline=pipe, audio_file=opt.audio_file,) # instance of Lecture class
 
     file_stem = Path(lecture.audio_file).stem
     output_dir = f"{os.getcwd()}/{file_stem}"

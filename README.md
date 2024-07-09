@@ -3,7 +3,13 @@
 This project is meant to eventually be a webapp, but the general idea is to take an .mp3 (or other audio format) file of a lecture or a meeting, generate a text transcript of that audio file, and create notes for that meeting or lecture.
 
 ## Status:
-~Currently I am messing around with an open-source Speech-to-Text model from facebook. Ignore the spaghetti code currently there.~ I am planning to implement a local instance of whisper in addition to a HuggingFace Transformer model for the open source iteration. On the other side of things, the OpenAI version is already functional.
+~~Currently I am messing around with an open-source Speech-to-Text model from facebook. Ignore the spaghetti code currently there.~~ I am planning to implement a local instance of whisper in addition to a HuggingFace Transformer model for the open source iteration. On the other side of things, the OpenAI version is already functional.
+
+~~I got flash attention to work on my ubuntu machine! Now time to test if Phi3 works :)~~
+- Phi3-Mini-128k works well, but when lectures are more than a few minutes long, it takes up too much memory.
+    - In order to combat this, I set a word limit of 400 for a chunk of a lecture, and iteratively take notes on each chunk present in the lecture (this will change depending on hardware).
+    - ~~On the RTX 3080ti, a 400 word limit + 1000 max_new_tokens in addition to Whisper medium.en takes up about 95% of the VRAM.~~
+    - The above was when the Phi3 model overwrote Whisper in memory, when they run in parallel, I found it best to just use Whisper base.en.
 
 
 ## OpenAI Iteration:
@@ -23,17 +29,41 @@ python app.py --api-key "YOUR_API_KEY" --audio-file "path/to/audio/file"
 
 ## Open Source Iteration:
 
+### Getting Started
+- You must be on a linux machine with a CUDA-enabled GPU
+- CUDA toolkit must be installed
+- `export CUDA_HOME='<path/to/cuda>`
+```shell
+# There are redundancies between these commands and the requirements.txt but this just ensures proper setup
+pip install packaging
+pip install wheel
+pip install ninja
+pip install torch torchvision torchaudio
+pip install setuptools
+pip install flash-attn --no-build-isolation
+pip install -r requirements.txt
+```
+- `OpenSource-Notetaker`/`app.py` takes the following commandline arguments:
+    - `whisper`: This is an optional string representing which whisper model to load. 
+    - `audio-file`: This is an audio file that you want to be transcribed and notes taken on. You must either give a relative path based on the current working directory or an absolute path.
+- There is currently no option for customizing the language model to be used, this could be an addition in a later iteration, but `Phi3-mini-128k` is used by default. 
+- Suggested requirements for the default implementation of this is an RTX-3080ti GPU, or any NVIDIA GPU with >= 12GB of VRAM
+```shell
+# From root directory (/Notetaker)
+python OpenSource-Notetaker/app.py --audio-file "path/to/audio/file"
+```
+
 ## Issues:
 I need to figure out how to:
-1. ~Split a single audio file into workable batches~
-2. ~Ensure those batches have a dimension of 1~
-3. Figure out model training. (None of this is needed with whisper)
-4. Turns out whisper is open source: https://github.com/openai/whisper
+1. ~~Split a single audio file into workable batches~~
+2. ~~Ensure those batches have a dimension of 1~~
+3. ~~Figure out model training. (None of this is needed with whisper)~~
+4. ~~Turns out whisper is open source:~~ https://github.com/openai/whisper 
 
 ## Todo:
-1. ~Implement open source whisper~ and then use huggingface models for the notetaking portion.
-2. Fix issues (see above)
-3. ~Create a pipeline for taking the transcription and creating (hopefully formatted) notes~
+1. ~~Implement open source whisper and then use huggingface models for the notetaking portion.~~
+2. ~~Fix issues (see above)~~
+3. ~~Create a pipeline for taking the transcription and creating (hopefully formatted) notes~~
 4. Turn it into a webapp (Flask)
     - Following this tutorial to add auth: https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login#step-7-setting-up-the-authorization-function
     - Need to create something that encrypts api keys in the database and decrypts them upon login
@@ -44,12 +74,12 @@ I need to figure out how to:
 8. Implement RAG that accesses current user's transcriptions
 9. Add GraphRAG from Microsoft
 
-### Datasets to Train On
+### Datasets to Train On (Out of Scope)
 - TED-LIUM (https://www.openslr.org/51)
 - LibriSpeech ASR (https://openslr.org/12)
 - Audio-MNIST (https://github.com/soerenab/AudioMNIST)
 
-## Instructions
+## Instructions (Outdated)
 - Create a virtual environment with Python 3.8 and then enter the following commands:
 ```shell
 brew install ffmpeg # or use apt for linux

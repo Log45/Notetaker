@@ -3,14 +3,8 @@
 This project is meant to eventually be a webapp, but the general idea is to take an .mp3 (or other audio format) file of a lecture or a meeting, generate a text transcript of that audio file, and create notes for that meeting or lecture.
 
 ## Status:
-~~Currently I am messing around with an open-source Speech-to-Text model from facebook. Ignore the spaghetti code currently there.~~ I am planning to implement a local instance of whisper in addition to a HuggingFace Transformer model for the open source iteration. On the other side of things, the OpenAI version is already functional.
 
-~~I got flash attention to work on my ubuntu machine! Now time to test if Phi3 works :)~~
-- Phi3-Mini-128k works well, but when lectures are more than a few minutes long, it takes up too much memory.
-    - In order to combat this, I set a word limit of 400 for a chunk of a lecture, and iteratively take notes on each chunk present in the lecture (this will change depending on hardware).
-    - ~~On the RTX 3080ti, a 400 word limit + 1000 max_new_tokens in addition to Whisper medium.en takes up about 95% of the VRAM.~~
-    - The above was when the Phi3 model overwrote Whisper in memory, when they run in parallel, I found it best to just use Whisper base.en.
-
+Both the OpenAI and Open Source versions work well. My main goal now is to create a web interface for everything first (for both iterations). Then, I can work more on optimizing the format of notes that the model makes, and then eventually work on having a chat feature.  
 
 ## OpenAI Iteration:
 

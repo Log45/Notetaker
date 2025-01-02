@@ -18,6 +18,7 @@
 __pycache__/
 .conda/
 .venv/
+.vscode/
 
 # Mac Finder File
 .DS_Store

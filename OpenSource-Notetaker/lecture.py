@@ -56,8 +56,6 @@ class Lecture():
     return self.transcription
 
   def take_notes(self, max_tokens: int=1000) -> str:
-    """Implement this function to take notes from the lecture transcription using an open source model like Phi-3, ollama, or something else."""
-    # TODO: Implement this function
     generation_args = { 
     "max_new_tokens": max_tokens, 
     "return_full_text": False, 

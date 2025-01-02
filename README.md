@@ -46,6 +46,7 @@ pip install -r requirements.txt
 - `OpenSource-Notetaker`/`app.py` takes the following commandline arguments:
     - `whisper`: This is an optional string representing which whisper model to load. 
     - `audio-file`: This is an audio file that you want to be transcribed and notes taken on. You must either give a relative path based on the current working directory or an absolute path.
+    - `model`: This is the HugginFace path to the LLM that you want to use to take notes with. Default is `microsoft/Phi-3-mini-128k-instruct`. 
 - There is currently no option for customizing the language model to be used, this could be an addition in a later iteration, but `Phi3-mini-128k` is used by default. 
 - Suggested requirements for the default implementation of this is an RTX-3080ti GPU, or any NVIDIA GPU with >= 12GB of VRAM
 ```shell

@@ -10,16 +10,17 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--whisper", type=str, default="base.en", help="Size of the whisper model to use. Options are tiny[.en], base[.en], small[.en], medium[.en], and large.")
     parser.add_argument("--audio-file", type=str, help="Path to audio file to take notes on.")
+    parser.add_argument("--model", type=str, default="microsoft/Phi-3-mini-128k-instruct", help="Model to use for lecture notes. Default is microsoft/Phi-3-mini-128k-instruct.")
     opt = parser.parse_args()
 
     client = whisper.load_model(opt.whisper)
     model = AutoModelForCausalLM.from_pretrained( 
-    "microsoft/Phi-3-mini-128k-instruct",  
+    opt.model,  
     device_map="cuda",  
     torch_dtype="auto",  
     trust_remote_code=True,  
     ) 
-    tokenizer = AutoTokenizer.from_pretrained("microsoft/Phi-3-mini-128k-instruct") 
+    tokenizer = AutoTokenizer.from_pretrained(opt.model) 
     pipe = pipeline( 
         "text-generation", 
         model=model, 

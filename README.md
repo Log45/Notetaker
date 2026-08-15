@@ -59,7 +59,7 @@ I need to figure out how to:
 1. ~~Implement open source whisper and then use huggingface models for the notetaking portion.~~
 2. ~~Fix issues (see above)~~
 3. ~~Create a pipeline for taking the transcription and creating (hopefully formatted) notes~~
-4. Turn it into a webapp (Flask)
+4. Turn it into a webapp (Flask or FastAPI)
     - Following this tutorial to add auth: https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login#step-7-setting-up-the-authorization-function
     - Need to create something that encrypts api keys in the database and decrypts them upon login
     - Need an upload page
